@@ -8,17 +8,18 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     @if (app()->environment('local'))
     <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
-@else
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-@endif
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    @endif
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.js') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.js') }}" rel="stylesheet"> --}}
     {{-- swiper --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <style>
+ 
         .hero-section {
             position: relative;
             background: url("{{ asset('images/hero.png') }}") no-repeat center center;
