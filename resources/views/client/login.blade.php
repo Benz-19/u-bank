@@ -16,7 +16,7 @@
         }
     </style>
 </head>
-<body class="bg-black flex items-center justify-center min-h-screen text-white">
+<body class="bg-black flex items-center justify-center min-h-screen text-white flex-col">
 
     <!-- Glassmorphic Login Card -->
     <div class="glass p-8 max-w-sm w-full">
@@ -67,6 +67,10 @@
             <p class="text-sm text-gray-400">Don't have an account? <a href="#" class="text-blue-400 hover:underline">Create an Account</a></p>
         </div>
     </div>
-
+    
+<!-- Footer -->
+<div class="flex mt-20">
+   @include('includes.footer')
+</div>
 </body>
 </html>
