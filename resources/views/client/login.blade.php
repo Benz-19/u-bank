@@ -27,6 +27,7 @@
 
         <!-- Login Form -->
         <form action="#" method="POST">
+            @csrf
             <div class="mb-6">
                 <input
                     type="email"

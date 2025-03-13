@@ -7,8 +7,11 @@ Route::get('/', function () {
     return view('landing');
 });
 
-// Client auth
+// Client Authentication
 Route::get('/client-login', function () {
     return view('/client/login');
 });
-Route::get('/create-user', [CreateUser::class, 'register']);
+Route::get('/create-user', function () {
+    return view('/auth/createUser');
+});
+Route::post('/register-user', [CreateUser::class, 'register']);
