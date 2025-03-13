@@ -9,9 +9,9 @@
     <style>
         /* Glassmorphism effect */
         .glass {
-            background: rgba(255, 255, 255, 0.1); /* Light background with transparency */
+            background: rgba(255, 255, 255, 0.1); 
             border-radius: 15px;
-            backdrop-filter: blur(10px); /* Blurring the background */
+            backdrop-filter: blur(10px); 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
@@ -64,7 +64,7 @@
 
         <!-- Register Link -->
         <div class="mt-6 text-center">
-            <p class="text-sm text-gray-400">Don't have an account? <a href="#" class="text-blue-400 hover:underline">Create an Account</a></p>
+            <p class="text-sm text-gray-400">Don't have an account? <a href="/create-user" class="text-blue-400 hover:underline">Create an Account</a></p>
         </div>
     </div>
     
