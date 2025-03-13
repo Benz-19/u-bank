@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- styles --}}
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    @if (app()->environment('local'))
+    <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
+@else
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+@endif
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.js') }}" rel="stylesheet">
     {{-- swiper --}}
