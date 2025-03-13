@@ -18,6 +18,14 @@
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen text-white flex-col">
 
+    @if (session('error'))
+    <div class="bg-red-500 text-white p-3 rounded mb-4">
+        {{ session('error') }}
+    </div>
+    @else
+        {{redirect('/client/dashboard')}}
+    @endif
+
     <!-- Glassmorphic Login Card -->
     <div class="glass p-8 max-w-sm w-full">
         <div class="mb-6 text-center">
@@ -26,7 +34,7 @@
         </div>
 
         <!-- Login Form -->
-        <form action="#" method="POST">
+        <form action="/login-user" method="POST">
             @csrf
             <div class="mb-6">
                 <input

@@ -23,8 +23,8 @@
         <div class="bg-green-500 text-white p-3 rounded mb-4">
             {{ session('success') }}
         </div>
-        <button type="submit" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-            <a href="">Login Here</a>
+        <button type="submit" class="py-3 bg-blue-500 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+            <a href="/client-login">Login Here</a>
         </button>
     @endif
 
