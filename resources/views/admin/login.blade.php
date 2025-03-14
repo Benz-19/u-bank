@@ -32,7 +32,7 @@
         </div>
 
         <!-- Login Form -->
-        <form action="/admin-login" method="POST">
+        <form action="/login-user" method="POST">
             @php
              session(['registration_role'=>'admin']);   
             @endphp

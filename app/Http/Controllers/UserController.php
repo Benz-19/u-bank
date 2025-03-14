@@ -66,4 +66,13 @@ class UserController extends Controller
         }
         MessageService::flash('error', 'Something went wrong!!!');
     }
+
+    public function logoutUser()
+    {
+        $role = Auth::user()->role;
+        Auth::logout();
+        session()->invalidate();
+        session()->regenerateToken();
+        return redirect("/{$role}-login");
+    }
 }
