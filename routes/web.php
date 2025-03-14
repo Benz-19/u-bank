@@ -17,6 +17,6 @@ Route::get('/create-user', function () {
 });
 Route::post('/register-user', [CreateUser::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
-Route::get('/dashbpard', function () {
+Route::get('/client/dashboard', function () {
     return view('client/dashboard');
 });

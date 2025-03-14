@@ -22,8 +22,8 @@
     <div class="bg-red-500 text-white p-3 rounded mb-4">
         {{ session('error') }}
     </div>
-    @else
-        {{redirect('/client/dashboard')}}
+    {{-- @else
+        {{redirect('/client/dashboard')}} --}}
     @endif
 
     <!-- Glassmorphic Login Card -->

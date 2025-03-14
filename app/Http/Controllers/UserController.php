@@ -19,6 +19,7 @@ class UserController extends Controller
         } else {
             if (auth()->attempt(['email' => $incomingRequest['email'], 'password' => $incomingRequest['password']])) {
                 $request->session()->regenerate();
+                return redirect('/client/dashboard');
             }
         }
         MessageService::flash('error', 'Something went wrong!!!');
