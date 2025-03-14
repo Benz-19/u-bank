@@ -23,6 +23,10 @@
     <title>Dashboard</title>
 </head>
 <body >
+  @php
+      $user = Auth::user();
+      echo $user->role;
+  @endphp
     <div class="flex h-screen w-full bg-gray-800 " x-data="{openMenu:1}">
         <!--Start SideBar-->
         <aside class="w-20 relative z-20 flex-shrink-0  px-2 overflow-y-auto bg-indigo-600 sm:block">
