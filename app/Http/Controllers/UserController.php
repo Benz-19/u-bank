@@ -2,11 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\MessageService;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Services\MessageService;
+use Illuminate\Support\Facades\Auth;
+
+/** @var \Illuminate\Contracts\Auth\Factory $auth */
+
 
 class UserController extends Controller
 {
+
+    public function register(Request $request)
+    {
+        $incomingRequest = $request->validate([
+            'name' => ['required', 'min:3', 'max:100',],
+            'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('user', 'email')],
+            'password' => ['required', 'min:3', 'max:100'],
+            'role' => ['required', 'in:admiin, client']
+        ]);
+
+        $incomingRequest['password'] = bcrypt($incomingRequest['password']);
+
+        $user = User::create($incomingRequest);
+
+        if ($user) {
+            MessageService::flash('success', 'Account was created successfully!');
+            return view('/auth/createUser');
+        } else {
+            MessageService::flash('error', 'Error, failed to create your account!');
+            return redirect()->back();
+        }
+    }
+
     public function loginUser(Request $request)
     {
         $incomingRequest = $request->validate([
@@ -19,7 +48,20 @@ class UserController extends Controller
         } else {
             if (auth()->attempt(['email' => $incomingRequest['email'], 'password' => $incomingRequest['password']])) {
                 $request->session()->regenerate();
-                return redirect('/client/dashboard');
+
+                $user = Auth::user(); //Get the authenticated user
+                $request->session()->put('role', $user->role); //store the role
+
+                if ($user->role === 'admin') {
+                    return redirect('/admin/dashboard'); //admin redirect
+                } elseif ($user->role === 'client') {
+                    return redirect('/client/dashboard'); //client redirect
+                } else {
+                    return redirect('/');
+                }
+            } else {
+                MessageService::flash('error', 'Something went wrong.');
+                MessageService::flash('error', 'Failed to authenticate user...');
             }
         }
         MessageService::flash('error', 'Something went wrong!!!');
