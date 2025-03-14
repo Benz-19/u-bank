@@ -9,15 +9,14 @@ Route::get('/', function () {
 
 // User Auth
 Route::get('/create-user', function () {
-    return view('/auth/createClient');
+    return view('/auth/createUser');
 });
+Route::post('/register-user', [UserController::class, 'register']);
 
 // Client Authentication
 Route::get('/client-login', function () {
     return view('/client/login');
 });
-
-Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
 Route::get('/client/dashboard', function () {
     return view('client/dashboard');

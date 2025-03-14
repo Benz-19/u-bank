@@ -37,7 +37,6 @@
              session(['registration_role'=>'admin']);   
             @endphp
             @csrf
-            <input type="text" name="role" >
             <div class="mb-6">
                 <input
                     type="email"

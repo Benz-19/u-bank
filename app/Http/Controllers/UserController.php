@@ -18,9 +18,9 @@ class UserController extends Controller
     {
         $incomingRequest = $request->validate([
             'name' => ['required', 'min:3', 'max:100',],
-            'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('user', 'email')],
+            'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'min:3', 'max:100'],
-            'role' => ['required', 'in:admiin, client']
+            'role' => ['required', 'in:admin, client']
         ]);
 
         $incomingRequest['password'] = bcrypt($incomingRequest['password']);
@@ -32,7 +32,7 @@ class UserController extends Controller
             return view('/auth/createUser');
         } else {
             MessageService::flash('error', 'Error, failed to create your account!');
-            return redirect()->back();
+            return redirect()->back()->withInput(); // Redirect back with input
         }
     }
 
