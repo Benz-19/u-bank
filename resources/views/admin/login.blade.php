@@ -32,11 +32,12 @@
         </div>
 
         <!-- Login Form -->
-        <form action="/login-user" method="POST">
+        <form action="/admin-login" method="POST">
             @php
-            session(['registration_role'=>'client']);   
-           @endphp
+             session(['registration_role'=>'admin']);   
+            @endphp
             @csrf
+            <input type="text" name="role" >
             <div class="mb-6">
                 <input
                     type="email"
