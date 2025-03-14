@@ -1,3 +1,11 @@
+@php
+    echo '
+<script>
+   setTimeout(()=>{
+    window.location.href = "admin-login";
+    }, 7000);
+</script>';
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,8 +60,9 @@
                       <i class="fas fa-headphones fa-sm text-white"></i>
                     </li>
                     <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
-                      <i class="fas fa-power-off fa-sm text-indigo-600"></i>
-                    </li>
+                      <a href="/logout">
+                        <i class="fas fa-power-off fa-sm text-indigo-600"></i>
+                      </a></li>
                   </ul>
                 </div>
                 <!--End NavItem -->

@@ -48,7 +48,7 @@
         <form action="/register-user" method="POST">
             {{session('registration_role')}}
             @csrf
-            <input type="hidden" name="role" value="{{ session('registration_role') }}">
+            <input type="hidden" name="role" value="{{ session('registration_role') }}"/>
             <div class="mb-6">
                 <input type="text" name="name" id="name" placeholder="Full Name"
                        class="w-full p-3 bg-transparent border-2 border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"

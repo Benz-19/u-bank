@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
+    public $role;
     public function register(Request $request)
     {
         $incomingRequest = $request->validate([
             'name' => ['required', 'min:3', 'max:100',],
             'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'min:3', 'max:100'],
-            'role' => ['required', 'in:admin, client']
+            'role' => ['required', 'in:client, admin']
         ]);
 
         $incomingRequest['password'] = bcrypt($incomingRequest['password']);
@@ -69,10 +69,13 @@ class UserController extends Controller
 
     public function logoutUser()
     {
-        $role = Auth::user()->role;
+        $this->role = session('role');
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
-        return redirect("/{$role}-login");
+        if ($this->role) {
+            return redirect("/{$this->role}-login");
+        }
+        return redirect()->back();
     }
 }

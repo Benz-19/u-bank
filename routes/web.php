@@ -13,6 +13,7 @@ Route::get('/create-user', function () {
 });
 Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
+Route::get('/logout', [UserController::class, 'logoutUser']);
 
 // Client Authentication
 Route::get('/client-login', function () {
