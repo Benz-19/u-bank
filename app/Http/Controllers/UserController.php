@@ -46,7 +46,7 @@ class UserController extends Controller
         if (empty($incomingRequest['email']) && empty($incomingRequest['password'])) {
             MessageService::flash('error', 'Ensure to fill all fields!!!');
         } else {
-            if (auth()->attempt(['email' => $incomingRequest['email'], 'password' => $incomingRequest['password']])) {
+            if (Auth::attempt(['email' => $incomingRequest['email'], 'password' => $incomingRequest['password']])) {
                 $request->session()->regenerate();
 
                 $user = Auth::user(); //Get the authenticated user

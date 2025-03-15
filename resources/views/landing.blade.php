@@ -22,7 +22,7 @@
  
         .hero-section {
             position: relative;
-            background: url("{{ asset('images/hero.png') }}") no-repeat center center;
+            background: url("{{ asset('images/hero.jpg') }}") no-repeat center center;
             background-size: cover;
             max-width: 100%;
             min-height: 100vh;
