@@ -51,6 +51,7 @@ class UserController extends Controller
 
                 $user = Auth::user(); //Get the authenticated user
                 $request->session()->put('role', $user->role); //store the role
+                $request->session()->put('user_id', $user->id); //user id
 
                 if ($user->role === 'admin') {
                     return redirect('/admin/dashboard'); //admin redirect
@@ -69,13 +70,13 @@ class UserController extends Controller
 
     public function logoutUser()
     {
-        $this->role = session('role');
+        $role = session('role');
         Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
-        if ($this->role) {
-            return redirect("/{$this->role}-login");
+        if ($role) {
+            return redirect("/{$role}-login");
         }
-        return redirect()->back();
+        return redirect('/');
     }
 }

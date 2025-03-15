@@ -19,8 +19,10 @@ Route::get('/logout', [UserController::class, 'logoutUser']);
 Route::get('/client-login', function () {
     return view('/client/login');
 });
-Route::get('/client/dashboard', function () {
-    return view('client/dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/client/dashboard', function () {
+        return view('client/dashboard');
+    });
 });
 
 
