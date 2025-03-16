@@ -24,8 +24,7 @@
 </head>
 <body >
   @php
-  $user = Auth::user();
-  echo $user->role;
+
   echo '<pre>';
   print_r(session()->all());
   echo '</pre>';
@@ -59,10 +58,14 @@
                     <li class="mb-3 p-2 rounded-md flex items-center justify-center bg-yellow-400 cursor-pointer">
                       <i class="fas fa-headphones fa-sm text-white"></i>
                     </li>
-                    <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
-                      <a href="/logout">
-                        <i class="fas fa-power-off fa-sm text-indigo-600"></i>
-                      </a></li>
+                    <form action="{{ route('logout') }}" method="GET">
+                      @csrf
+                      <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
+                        <button type="submit" name="logout">
+                          <i class="fas fa-power-off fa-sm text-indigo-600"></i>
+                        </button>
+                      </li>
+                    </form>
                   </ul>
                 </div>
                 <!--End NavItem -->
@@ -243,5 +246,12 @@
           </main>
         </div>
     </div>
+
+    <script>
+      if (window.history.replaceState) {
+          window.history.replaceState(null, null, window.location.href);
+      }
+  </script>
+  
 </body>
 </html>

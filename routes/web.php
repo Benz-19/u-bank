@@ -3,33 +3,36 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Landing Page
 Route::get('/', function () {
     return view('landing');
 });
 
-// User Auth
+// User Authentication Routes
 Route::get('/create-user', function () {
-    return view('/auth/createUser');
+    return view('auth.createUser');
 });
 Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
-Route::get('/logout', [UserController::class, 'logoutUser']);
+Route::get('/logout', [UserController::class, 'logoutUser'])->name('logout')->middleware('PreventBackhistory');
 
-// Client Authentication
-Route::get('/client-login', function () {
-    return view('/client/login');
-});
-Route::middleware(['auth'])->group(function () {
-    Route::get('/client/dashboard', function () {
-        return view('client/dashboard');
+// Middleware to prevent back history after logout
+Route::middleware(['PreventBackhistory'])->group(function () {
+    // Client Authentication
+    Route::get('/client-login', function () {
+        return view('client.login');
     });
-});
 
+    Route::get('/client/dashboard', function () {
+        return view('client.dashboard');
+    });
 
-// Admin Authentication
-Route::get('/admin-login', function () {
-    return view('/admin/login');
-});
-Route::get('/admin/dashboard', function () {
-    return view('admin/dashboard');
+    // Admin Authentication
+    Route::get('/admin-login', function () {
+        return view('admin.login');
+    });
+
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    });
 });
