@@ -18,18 +18,17 @@ Route::get('/logout', [UserController::class, 'logoutUser']);
 
 
 // Middleware to prevent back history after logout
-Route::middleware(['PreventBackhistory'])->group(function () {
+Route::middleware(['PreventBackHistory'])->group(function () {
     // Client Authentication
     Route::get('/client-login', function () {
         return view('client.login');
     });
 
     Route::get('/client/dashboard', function () {
-        if (session('user_id')) {
+        if (session('user_id') !== NULL) {
             return view('client.dashboard');
-        } else {
-            return view('/');
         }
+        return view('/');
     });
 
     // Admin Authentication

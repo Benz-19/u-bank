@@ -14,6 +14,9 @@
             backdrop-filter: blur(10px); 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        .con{
+            color: red;
+        }
     </style>
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen text-white flex-col">
@@ -23,6 +26,11 @@
         {{ session('error') }}
     </div>
     @endif
+
+    @php
+      if(session('user_id') === NULL)
+        redirect('/')
+    @endphp
 
     <!-- Glassmorphic Login Card -->
     <div class="glass p-8 max-w-sm w-full">

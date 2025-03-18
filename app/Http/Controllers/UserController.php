@@ -78,7 +78,7 @@ class UserController extends Controller
             return redirect("/{$role}-login")->withHeaders([
                 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
                 'Pragma' => 'no-cache',
-                'Expires' => 'Sat, 26 Jul 1997 05:00:00 GMT',
+                'Expires' => 'Sat,  01 Jan 2000 00:00:00 GMT',
             ]);
         }
         return redirect('/');
