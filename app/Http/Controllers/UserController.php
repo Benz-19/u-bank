@@ -72,6 +72,7 @@ class UserController extends Controller
     {
         $role = session('role');
         Auth::logout();
+        session()->flush();
         session()->invalidate();
         session()->regenerateToken();
         if ($role) {
