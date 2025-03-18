@@ -14,7 +14,8 @@ Route::get('/create-user', function () {
 });
 Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
-Route::get('/logout', [UserController::class, 'logoutUser'])->name('logout')->middleware('PreventBackhistory');
+Route::get('/logout', [UserController::class, 'logoutUser']);
+
 
 // Middleware to prevent back history after logout
 Route::middleware(['PreventBackhistory'])->group(function () {
@@ -24,7 +25,11 @@ Route::middleware(['PreventBackhistory'])->group(function () {
     });
 
     Route::get('/client/dashboard', function () {
-        return view('client.dashboard');
+        if (session('user_id')) {
+            return view('client.dashboard');
+        } else {
+            return view('/');
+        }
     });
 
     // Admin Authentication

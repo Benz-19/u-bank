@@ -58,14 +58,13 @@
                     <li class="mb-3 p-2 rounded-md flex items-center justify-center bg-yellow-400 cursor-pointer">
                       <i class="fas fa-headphones fa-sm text-white"></i>
                     </li>
-                    <form action="{{ route('logout') }}" method="GET">
-                      @csrf
                       <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
+                        <a href="/logout">
                         <button type="submit" name="logout">
                           <i class="fas fa-power-off fa-sm text-indigo-600"></i>
                         </button>
+                      </a>
                       </li>
-                    </form>
                   </ul>
                 </div>
                 <!--End NavItem -->
