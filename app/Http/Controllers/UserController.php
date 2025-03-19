@@ -68,6 +68,7 @@ class UserController extends Controller
         MessageService::flash('error', 'Something went wrong!!!');
     }
 
+
     public function logoutUser()
     {
         $role = session('role');
