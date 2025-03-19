@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 /** @var \Illuminate\Contracts\Auth\Factory $auth */
 
-
 class UserController extends Controller
 {
     public $role;
