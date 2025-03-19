@@ -20,6 +20,7 @@
     </style>
 </head>
 <body class="bg-black flex items-center justify-center min-h-screen text-white flex-col">
+    
     @if (session('error'))
     <div class="bg-red-500 text-white p-3 rounded mb-4">
         {{ session('error') }}
