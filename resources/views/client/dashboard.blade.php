@@ -37,8 +37,8 @@
             <!-- Account Overview -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-gray-600">Balance</h3>
-                    <p class="text-2xl font-bold">$12,450.00</p>
+                    <h3 class="text-gray-600">Available Balance</h3>
+                    <p class="text-2xl font-bold">${{$currentBalance}}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-gray-600">Savings</h3>

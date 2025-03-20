@@ -1,7 +1,10 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
 
 
 // Landing Page
@@ -27,12 +30,18 @@ Route::middleware(['PreventBackHistory'])->group(function () {
 
     Route::get('/client/dashboard', function () {
         if (session('user_id') !== NULL) {
-            return view('client.dashboard');
+
+            if (Auth::check()) {
+                $transactionController = new TransactionController();
+                $currentBalance = $transactionController->currentBalance();
+                return view(
+                    'client.dashboard',
+                    ['currentBalance' => $currentBalance]
+                );
+            }
         }
         return redirect('/');
     });
-
-
 
     // Admin Authentication
     Route::get('/admin-login', function () {
