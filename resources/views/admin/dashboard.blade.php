@@ -1,11 +1,4 @@
-@php
-    echo '
-<script>
-   setTimeout(()=>{
-    window.location.href = "admin-login";
-    }, 7000);
-</script>';
-@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

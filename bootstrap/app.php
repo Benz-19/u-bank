@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class,
+            'PreventBackHistory' => \App\Http\Middleware\PreventBackHistory::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

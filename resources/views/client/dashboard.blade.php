@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,14 +24,6 @@
     <title>Dashboard</title>
 </head>
 <body >
-  @php
-  echo '<pre>';
-  print_r(session()->all());
-  echo '</pre>';
-@endphp
-
-@auth
-    
     <div class="flex h-screen w-full bg-gray-800 " x-data="{openMenu:1}">
         <!--Start SideBar-->
         <aside class="w-20 relative z-20 flex-shrink-0  px-2 overflow-y-auto bg-indigo-600 sm:block">
@@ -59,13 +52,10 @@
                     <li class="mb-3 p-2 rounded-md flex items-center justify-center bg-yellow-400 cursor-pointer">
                       <i class="fas fa-headphones fa-sm text-white"></i>
                     </li>
-                      <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
-                        <a href="/logout">
-                        <button type="submit" name="logout">
-                          <i class="fas fa-power-off fa-sm text-indigo-600"></i>
-                        </button>
-                      </a>
-                      </li>
+                    <li class="absolute bottom-0 mb-3 p-2 rounded-full flex items-center mx-auto bg-white cursor-pointer">
+                      <a href="/logout">
+                        <i class="fas fa-power-off fa-sm text-indigo-600"></i>
+                      </a></li>
                   </ul>
                 </div>
                 <!--End NavItem -->
@@ -246,14 +236,5 @@
           </main>
         </div>
     </div>
-
-@endauth
-
-    <script>
-      if (window.history.replaceState) {
-          window.history.replaceState(null, null, window.location.href);
-      }
-  </script>
-  
 </body>
 </html>
