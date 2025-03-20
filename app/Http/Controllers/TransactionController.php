@@ -20,9 +20,9 @@ class TransactionController extends Controller
             return "Failed";
         }
 
-        $userTransactions = DB::table('transactions')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        if ($userTransactions) {
-            return $userTransactions->balance_after;
+        $userLatestTransactions = DB::table('transactions')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        if ($userLatestTransactions) {
+            return $userLatestTransactions->balance_after;
         } else {
             return 0;
         }

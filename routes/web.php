@@ -29,16 +29,14 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     Route::get('/client/dashboard', function () {
-        if (session('user_id') !== NULL) {
 
-            if (Auth::check()) {
-                $transactionController = new TransactionController();
-                $currentBalance = $transactionController->currentBalance();
-                return view(
-                    'client.dashboard',
-                    ['currentBalance' => $currentBalance]
-                );
-            }
+        if (Auth::check()) {
+            $transactionController = new TransactionController();
+            $currentBalance = $transactionController->currentBalance();
+            return view(
+                'client.dashboard',
+                ['currentBalance' => $currentBalance]
+            );
         }
         return redirect('/');
     });
