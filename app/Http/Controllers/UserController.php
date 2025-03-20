@@ -75,11 +75,7 @@ class UserController extends Controller
         session()->invalidate();
         session()->regenerateToken();
         if ($role) {
-            return redirect("/{$role}-login")->withHeaders([
-                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
-                'Pragma' => 'no-cache',
-                'Expires' => 'Sat,  01 Jan 2000 00:00:00 GMT',
-            ]);
+            return redirect("/{$role}-login");
         }
         return redirect('/');
     }
