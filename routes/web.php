@@ -32,6 +32,8 @@ Route::middleware(['PreventBackHistory'])->group(function () {
         return redirect('/');
     });
 
+
+
     // Admin Authentication
     Route::get('/admin-login', function () {
         return view('admin.login');
