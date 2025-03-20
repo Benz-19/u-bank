@@ -14,7 +14,6 @@ class TransactionController extends Controller
 
     public function currentBalance()
     {
-        $userTransactions = DB::table('transactions')->get();
         $user = Auth::user();
         if (!$user) {
             return "Failed";
