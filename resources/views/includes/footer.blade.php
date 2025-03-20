@@ -27,7 +27,9 @@
 
         <!-- Copyright -->
         <div class="mt-6 text-sm text-gray-400">
-            <p>&copy; 2025 u-bank-team. All rights reserved.</p>
-        </div>
+            @php
+            $year = date('Y');
+            echo "<p> &copy; $year u-bank-team. All rights reserved.</p>";
+        @endphp
     </div>
 </footer>
