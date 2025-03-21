@@ -35,13 +35,17 @@ Route::middleware(['PreventBackHistory'])->group(function () {
             $userTransactions = $transactionController->getAllTransactions();
             $currentBalance = $transactionController->currentBalance();
             $filterDate = $transactionController->filterDate();
+            $userName = strtoupper(Auth::user()->name);
+            $accountNumber = Auth::user()->account_no;
             // dd($filterDate);
             return view(
                 'client.dashboard',
                 [
                     'currentBalance' => $currentBalance,
                     'userTransactions' => $userTransactions,
-                    'transactionDate' => $filterDate
+                    'transactionDate' => $filterDate,
+                    'userName' => $userName,
+                    'accountNumber' => $accountNumber
                 ]
             );
         }
@@ -71,6 +75,11 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     //Transfer
+    Route::get('/transfer', function () {
+        $transactionController = new TransactionController();
+        $currentBalance = $transactionController->currentBalance();
+        return view('client.transfer', ["availableBalance" => $currentBalance]);
+    });
 
     // Admin Authentication
     Route::get('/admin-login', function () {

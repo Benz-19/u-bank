@@ -16,6 +16,7 @@
                 {{-- <a href="#" class="block p-2 rounded hover:bg-blue-700">Transactions</a> --}}
                 <a href="/deposit" class="block p-2 rounded hover:bg-blue-700">Deposit</a>
                 <a href="/withdrawal" class="block p-2 rounded hover:bg-blue-700">Withdraw</a>
+                <a href="/transfer" class="block p-2 rounded hover:bg-blue-700">Transfer</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Accounts</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Settings</a>
             </nav>
@@ -34,6 +35,11 @@
                 <a href="/logout">
                   <button class="bg-blue-600 text-white px-4 py-2 rounded">Logout</button>
                 </a>
+            </div>
+
+            <div class="flex flex-col">
+                <p class="font-bold">Welcome {{$userName}}</p>
+                <p>Acc no: {{ $accountNumber}}</p>
             </div>
             
             <!-- Account Overview -->

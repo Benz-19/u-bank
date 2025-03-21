@@ -63,6 +63,7 @@ class TransactionController extends Controller
                 'type' => 'deposit',
                 'amount' => $incomingRequest['depositAmount'],
                 'balance_after' => $newBalance,
+                'account_no' => $user->account_no,
                 'status' => 'successful',
                 'recipient_id' => $user->id,
                 'reference' => $this->generateReference(),
