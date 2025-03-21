@@ -43,6 +43,12 @@
     </div>
     @endif
 
+    <button type="submit" class="w-fit mt-5 py-3 bg-red-500 text-white font-semibold rounded-md shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+        @php
+            $url = '/client/dashboard'; //redirects the user to the appropriate login page
+        @endphp
+        <a href="{{$url}}">Return to Dashboard</a>
+    </button>
 <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <p class="text-lg">Current Balance: <span class="text-green-500">$ {{$availableBalance}}</span></p>

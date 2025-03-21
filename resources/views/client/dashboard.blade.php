@@ -13,7 +13,7 @@
             <h1 class="text-2xl font-bold">U-Bank</h1>
             <nav class="space-y-4">
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Dashboard</a>
-                <a href="#" class="block p-2 rounded hover:bg-blue-700">Transactions</a>
+                {{-- <a href="#" class="block p-2 rounded hover:bg-blue-700">Transactions</a> --}}
                 <a href="/deposit" class="block p-2 rounded hover:bg-blue-700">Deposit</a>
                 <a href="/withdrawal" class="block p-2 rounded hover:bg-blue-700">Withdraw</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Accounts</a>
