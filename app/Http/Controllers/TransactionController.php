@@ -12,6 +12,17 @@ class TransactionController extends Controller
     //
     protected $currentBalance;
 
+    public function getAllTransactions()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return "Failed to retrieve data!";
+        }
+
+        $userTransaction = DB::table('transactions')->get();
+        return $userTransaction;
+    }
+
     public function currentBalance()
     {
         $user = Auth::user();

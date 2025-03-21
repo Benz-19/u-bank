@@ -32,10 +32,14 @@ Route::middleware(['PreventBackHistory'])->group(function () {
 
         if (Auth::check()) {
             $transactionController = new TransactionController();
+            $userTransactions = $transactionController->getAllTransactions();
             $currentBalance = $transactionController->currentBalance();
             return view(
                 'client.dashboard',
-                ['currentBalance' => $currentBalance]
+                [
+                    'currentBalance' => $currentBalance,
+                    'userTransactions' => $userTransactions
+                ]
             );
         }
         return redirect('/');
