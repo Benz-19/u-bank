@@ -63,9 +63,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            $index = 0;
-                        @endphp
+                        @php $index = 0; @endphp
                         @foreach ($userTransactions as $userTransaction)
                         <tr class="border-b">
                             <td class="p-2">{{$transactionDate[$index]}}</td>
