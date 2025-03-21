@@ -63,26 +63,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $index = 0;
+                        @endphp
+                        @foreach ($userTransactions as $userTransaction)
                         <tr class="border-b">
-                            <td class="p-2">March 19, 2025</td>
-                            <td class="p-2">Grocery Shopping</td>
-                            <td class="p-2 text-red-600">- $120.00</td>
+                            <td class="p-2">{{$transactionDate[$index]}}</td>
+                            <td class="p-2">{{$userTransaction->description}}</td>
+                       
+                            @if ($userTransaction->type === 'deposit')
+                            <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
+                           @else
+                           <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               
+                           @endif
                         </tr>
-                        <tr class="border-b">
-                            <td class="p-2">{{$transactionDate[0]}}</td>
-                            <td class="p-2">{{$userTransactions[0]->description}}</td>
-                            <td class="p-2 text-green-600">+ ${{$userTransactions[0]->amount}}</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="p-2">March 18, 2025</td>
-                            <td class="p-2">Salary Deposit</td>
-                            <td class="p-2 text-green-600">+ $2,500.00</td>
-                        </tr>
-                        <tr>
-                            <td class="p-2">March 17, 2025</td>
-                            <td class="p-2">Utility Bill</td>
-                            <td class="p-2 text-red-600">- $200.00</td>
-                        </tr>
+                        @php $index++; @endphp
+                        @endforeach
+                        
                     </tbody>
                 </table>
             </div>
