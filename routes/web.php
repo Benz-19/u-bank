@@ -49,10 +49,20 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     // Client Transactions
+    //deposit
     Route::post('/deposit', [TransactionController::class, 'deposit']);
     Route::get('/deposit', function () {
-        return view('client.deposit');
+        $transactionController = new TransactionController();
+        $availableBalance = $transactionController->currentBalance();
+        return view('client.deposit', ['availableBalance' => $availableBalance]);
     });
+
+    //withdrawal
+    Route::get('/withdraw', [TransactionController::class, 'withdraw']);
+    Route::get('/withdraw', function () {
+        return view('client.withdrawal');
+    });
+
 
     // Admin Authentication
     Route::get('/admin-login', function () {

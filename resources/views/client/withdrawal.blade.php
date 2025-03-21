@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deposit</title>
+    <title>Withdraw</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -44,7 +44,7 @@
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Make a new Deposit
+                Make a new Withdrawal
             </h2>
         </div>
         <form class="mt-8 space-y-6" action="#" method="POST">
@@ -53,17 +53,17 @@
             <div class="rounded-md shadow-sm -space-y-px">
                 <div class="flex ">
                     <label for="amount" class="mr-2">Amount</label>
-                    <input id="amount" name="depositAmount" type="number" class="mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm" placeholder="Enter an amount...">
+                    <input id="amount" name="withdrawAmount" type="number" class="mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm" placeholder="Enter an amount...">
                 </div>
-                <div class="flex mt-2">
+                {{-- <div class="flex mt-2">
                     <label for="description" class="mr-2">Description</label>
                     <input id="description" name="description" type="text" autocomplete="off" class="appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Description">
-                </div>
+                </div> --}}
             </div>
 
             <div>
-                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-u-bank-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-u-bank-blue">
-                    Add Transaction
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-red-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-u-bank-blue">
+                    withdraw
                 </button>
             </div>
         </form>

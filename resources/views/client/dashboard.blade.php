@@ -15,6 +15,7 @@
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Dashboard</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Transactions</a>
                 <a href="/deposit" class="block p-2 rounded hover:bg-blue-700">Deposit</a>
+                <a href="/withdraw" class="block p-2 rounded hover:bg-blue-700">Withdraw</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Accounts</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Settings</a>
             </nav>

@@ -82,9 +82,52 @@ class TransactionController extends Controller
         }
     }
 
-    public function withdrawal()
+    public function withdrawal(Request $request)
     {
-        return $this->generateReference();
+        $user = Auth::user();
+        if (!$user) {
+            return "Failed to validate the user!!!";
+        }
+
+        $incomingRequest = $request->validate([
+            'withdrawAmount' => ['required']
+        ]);
+        $incomingRequest['withdrawAmount'] = htmlspecialchars($incomingRequest['withdrawAmount']);
+
+        // Query the DB
+        $currentBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $availableBalance = $currentBalance ? $currentBalance->balance_after : 0;
+
+        if ($availableBalance > $incomingRequest['withdrawAmount']) {
+
+            $newBalance = $availableBalance - $incomingRequest['withdrawAmount'];
+
+            try {
+                $makeWithdrawal = DB::table('transactions')->insert([
+                    'user_id' => $user->id,
+                    'type' => 'withdrawal',
+                    'amount' => $incomingRequest['withdrawAmount'],
+                    'balance_after' => $newBalance,
+                    'status' => 'successful',
+                    'recipient_id' => $user->id,
+                    'reference' => $this->generateReference(),
+                    'description' => $incomingRequest['description']
+                ]);
+
+                if ($makeWithdrawal) {
+                    MessageService::flash('success', 'Withdrawal was successful...');
+                    return view('client.withdrawal');
+                } else {
+                    MessageService::flash('error', 'Withdrawal Failed!!!');
+                    return view('client.withdrawal');
+                }
+            } catch (\Exception $error) {
+                Log::error('Deposit failed: ' . $error->getMessage());
+                MessageService::flash('error', 'An unexpected error occurred.');
+            }
+        } else {
+            MessageService::flash('error', 'Insufficient Fund!!!');
+        }
     }
 
     public function filterDate()
