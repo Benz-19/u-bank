@@ -17,6 +17,8 @@ class Transaction extends Model
         'amount',
         'balance_after',
         'currency',
+        'senderAcc_no',
+        'recipientAcc_no',
         'status',
         'recipient_id',
         'reference',

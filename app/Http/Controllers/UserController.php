@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Services\MessageService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 /** @var \Illuminate\Contracts\Auth\Factory $auth */
@@ -82,5 +84,43 @@ class UserController extends Controller
             ]);
         }
         return redirect('/');
+    }
+
+    public function generateAccountNumber(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect('/');
+        }
+
+        // search for the user
+        $hasAccNo = Auth::user()->account_no !== null ? true : false;
+
+        if ($hasAccNo) {
+            MessageService::flash('error', 'You Already have an account!!!');
+            return view('client.dashboard');
+        }
+
+        // return "yes";
+        $newAccNo = rand(10000000, 99999999);
+
+        try {
+
+            $affectedRows  = DB::table('users')
+                ->where('id', $user->id)
+                ->update(['account_no' => $newAccNo]);
+
+            if ($affectedRows > 0) {
+                MessageService::flash('success', "Account number created successfully... Your number {$newAccNo}");
+                return redirect('/client/dashboard');
+            } else {
+                MessageService::flash('error', "Failed to create an Account number!!!");
+                return redirect('/');
+            }
+        } catch (\Exception $error) {
+            Log::error('Deposit failed: ' . $error->getMessage());
+            MessageService::flash('error', 'An unexpected error occurred.');
+            return redirect('/dashboard');
+        }
     }
 }

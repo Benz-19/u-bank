@@ -19,6 +19,10 @@
                 <a href="/transfer" class="block p-2 rounded hover:bg-blue-700">Transfer</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Accounts</a>
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Settings</a>
+                <form action="/generateAccountNumber" method="post">
+                    @csrf
+                    <button class="py-3 bg-blue-500 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">generate Account Number</button>
+                </form>
             </nav>
             <div style="margin-top:auto;">
                 @php

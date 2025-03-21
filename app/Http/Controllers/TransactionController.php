@@ -133,6 +133,18 @@ class TransactionController extends Controller
         }
     }
 
+    public function transfer(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user)
+            return "Failed to validate the user!!!";
+
+        $incomingRequest = $request->validate([
+            'transferAmount' => ['required'],
+            'recipientAccount_no' => ['required', 'max:8']
+        ]);
+    }
+
     public function filterDate()
     {
         $transactionMonths = []; //months the user carried out a transaction

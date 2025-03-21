@@ -52,6 +52,22 @@ Route::middleware(['PreventBackHistory'])->group(function () {
         return redirect('/');
     });
 
+    // generate Account Number
+    Route::post('/generateAccountNumber', [UserController::class, 'generateAccountNumber']);
+    Route::get('/generateAccountNumber', function () {
+        $TransactionController = new TransactionController();
+        $userTransactions = $TransactionController->getAllTransactions();
+        $currentBalance = $TransactionController->currentBalance();
+        $userName = strtoupper(Auth::user()->name);
+        $accountNumber = Auth::user()->account_no;
+        return view('client.dashboard', [
+            'userName' => $userName,
+            'accountNumber' => $accountNumber,
+            'currentBalance' => $currentBalance,
+            'userTransactions' => $userTransactions
+        ]);
+    });
+
     // Client Transactions
     //deposit
     Route::post('/deposit', [TransactionController::class, 'deposit']);

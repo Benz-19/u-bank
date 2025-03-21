@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('amount', 15, 2); // Transaction amount
             $table->decimal('balance_after', 15, 2); // Balance after transaction
             $table->string('currency', 10)->default('USD'); // Currency type
+            $table->integer('senderAcc_no');
+            $table->integer('recipientAcc_no');
             $table->string('status')->default('pending'); // Status (pending, completed, failed)
             $table->foreignId('recipient_id')->nullable()->constrained('users')->onDelete('cascade'); // For transfers
             $table->string('reference')->unique(); // Unique transaction reference

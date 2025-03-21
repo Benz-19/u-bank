@@ -62,15 +62,15 @@
             <div class="rounded-md shadow-sm -space-y-px">
                 <div class="flex ">
                     <label for="amount" class="mr-2">Amount</label>
-                    <input id="amount" name="depositAmount" type="number" class="mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm" placeholder="Enter an amount...">
+                    <input id="amount" name="transferAmount" type="number" class="mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm" placeholder="Enter an amount...">
                 </div>
                 <div class="flex mt-2">
-                    <label for="description" class="mr-2">Recipient Name</label>
-                    <input id="description" name="description" type="text" autocomplete="off" class="appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Description">
+                    <label for="recipientAccount_no" class="mt-5">Recipient Acc No.</label>
+                    <input id="recipientAccount_no" name="recipientAccount_no" type="number" autocomplete="off" class="mt-5 appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Recipient acc no...">
                 </div>
                 <div class="flex mt-2">
-                    <label for="description" class="mr-2">Description</label>
-                    <input id="description" name="description" type="text" autocomplete="off" class="appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Description">
+                    <label for="description" class="mt-6 mr-2">Description</label>
+                    <input id="description" name="description" type="text" autocomplete="off" class="mt-5 appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Description">
                 </div>
             </div>
 
