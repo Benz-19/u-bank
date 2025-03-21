@@ -19,7 +19,8 @@
     </script>
 </head>
 <body class="bg-gray-100">
-
+@auth
+    
     @if (session('success'))
     <div class="flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8">
         <div class="bg-green-500 text-white p-3 rounded mb-4">
@@ -68,6 +69,6 @@
         </form>
     </div>
 </div>
-
+@endauth
 </body>
 </html>
