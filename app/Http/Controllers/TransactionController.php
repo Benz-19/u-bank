@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\MessageService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -38,15 +39,41 @@ class TransactionController extends Controller
         }
     }
 
-    public function deposit($depositAmount)
+    public function deposit(Request $request)
     {
         $user = Auth::user();
         if (!$user) {
             return "Failed to retrieve data!";
         }
 
-        $makeDeposit = DB::table('transactions')->insert([]);
+        $incomingRequest = $request->validate([
+            'depositAmount' => ['required'],
+            'recipient_id' => ['required'],
+            'description' => ['required']
+        ]);
+
+        // Query the DB
+        $lastBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $newBalance = $incomingRequest['depositAmount'] + $lastBalance->balance_after;
+
+        $makeDeposit = DB::table('transactions')->insert([
+            'user_id' => $user->id,
+            'type' => 'deposit',
+            'amount' => $incomingRequest['depositAmount'],
+            'balance_after' => $newBalance,
+            'status' => 'successful',
+            'recipient_id' => $incomingRequest['recipient_id'],
+            'reference' => $this->generateReference(),
+            'description' => $incomingRequest['description']
+        ]);
+
+        if ($makeDeposit) {
+            return MessageService::flash('success', 'Deposit was successful');
+        } else {
+            return MessageService::flash('error', 'Failed to make the Deposit');
+        }
     }
+
     public function withdrawal()
     {
         return $this->generateReference();
