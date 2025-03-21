@@ -52,7 +52,7 @@
             
             <!-- Transactions Table -->
             <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-bold mb-4">Recent Transactions</h3>
+                <h3 class="text-xl font-bold mb-4">All Transactions</h3>
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
