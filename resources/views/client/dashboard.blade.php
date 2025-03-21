@@ -68,7 +68,7 @@
                             <td class="p-2 text-red-600">- $120.00</td>
                         </tr>
                         <tr class="border-b">
-                            <td class="p-2">March 18, 2025</td>
+                            <td class="p-2">{{$transactionDate[0]}}</td>
                             <td class="p-2">{{$userTransactions[0]->description}}</td>
                             <td class="p-2 text-green-600">+ ${{$userTransactions[0]->amount}}</td>
                         </tr>

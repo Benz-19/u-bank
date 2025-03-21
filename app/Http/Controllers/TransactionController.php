@@ -19,8 +19,8 @@ class TransactionController extends Controller
             return "Failed to retrieve data!";
         }
 
-        $userTransaction = DB::table('transactions')->get();
-        return $userTransaction;
+        $userTransactions = DB::table('transactions')->where('user_id', $user->id)->get();
+        return $userTransactions;
     }
 
     public function currentBalance()
@@ -45,11 +45,49 @@ class TransactionController extends Controller
             return "Failed to retrieve data!";
         }
 
-        // $userLatestTransactions = DB::table('transactions')->where('')
+        $makeDeposit = DB::table('transactions')->insert([]);
     }
     public function withdrawal()
     {
         return $this->generateReference();
+    }
+
+    public function filterDate()
+    {
+        $transactionMonths = []; //months the user carried out a transaction
+        $months = [
+            "01" => "January",
+            "02" => "February",
+            "03" => "March",
+            "04" => "April",
+            "05" => "May",
+            "06" => "June",
+            "07" => "July",
+            "08" => "August",
+            "09" => "September",
+            "10" => "October",
+            "11" => "November",
+            "12" => "December"
+        ];
+
+        $user = Auth::user();
+
+        $userTransactionsMonths = DB::table('transactions')
+            ->select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day'))
+            ->where('user_id', $user->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        foreach ($userTransactionsMonths as $usrTransMonth) {
+            $monthNumber = sprintf("%02d", $usrTransMonth->month); // Format month as two-digit string
+            $yearNumber = sprintf("%04d", $usrTransMonth->year);
+            $dayNumber = sprintf("%02d", $usrTransMonth->day);
+            if (array_key_exists($monthNumber, $months)) {
+                $transactionMonths[] =  $months[$monthNumber] . " " . $dayNumber . "," . $yearNumber;
+            }
+        }
+
+        return $transactionMonths;
     }
 
     protected function generateReference()

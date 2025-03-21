@@ -34,11 +34,14 @@ Route::middleware(['PreventBackHistory'])->group(function () {
             $transactionController = new TransactionController();
             $userTransactions = $transactionController->getAllTransactions();
             $currentBalance = $transactionController->currentBalance();
+            $filterDate = $transactionController->filterDate();
+            // dd($filterDate);
             return view(
                 'client.dashboard',
                 [
                     'currentBalance' => $currentBalance,
-                    'userTransactions' => $userTransactions
+                    'userTransactions' => $userTransactions,
+                    'transactionDate' => $filterDate
                 ]
             );
         }
