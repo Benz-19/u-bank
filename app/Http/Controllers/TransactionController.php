@@ -16,7 +16,7 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         if (!$user) {
-            return "Failed";
+            return "Failed to retrieve data!";
         }
 
         $userLatestTransactions = DB::table('transactions')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
@@ -25,6 +25,16 @@ class TransactionController extends Controller
         } else {
             return 0;
         }
+    }
+
+    public function deposit($depositAmount)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return "Failed to retrieve data!";
+        }
+
+        // $userLatestTransactions = DB::table('transactions')->where('')
     }
     public function withdrawal()
     {
