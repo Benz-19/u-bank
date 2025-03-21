@@ -86,7 +86,7 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function generateAccountNumber(Request $request)
+    public function generateAccountNumber()
     {
         $user = Auth::user();
         if (!$user) {
@@ -97,7 +97,7 @@ class UserController extends Controller
         $hasAccNo = Auth::user()->account_no !== null ? true : false;
 
         if ($hasAccNo) {
-            MessageService::flash('error', 'You Already have an account!!!');
+            MessageService::flash('error', "You Already have an account!!! Acc no: {$user->account_no}");
             return redirect('/generateAccountNumber');
         }
 

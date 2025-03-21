@@ -7,6 +7,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 font-sans">
+
+    
+    @if (session('success'))
+    <div class="flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8">
+        <div class="bg-green-500 text-white p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+        <button type="submit" class="w-fit py-3 bg-red-500 text-white font-semibold rounded-md shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+            @php
+                $url = '/client/dashboard'; //redirects the user to the appropriate login page
+            @endphp
+            <a href="{{$url}}">Return</a>
+        </button>
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="bg-red-500 text-white p-3 rounded mb-4">
+        {{ session('error') }}
+    </div>
+    @endif
+
     <div class="flex h-screen">
         <!-- Sidebar -->
         <aside class="flex flex-col w-64 bg-blue-900 text-white p-5 space-y-6">
@@ -81,6 +103,8 @@
                             <td class="p-2">{{$userTransaction->description}}</td>
                        
                             @if ($userTransaction->type === 'deposit')
+                            <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
+                            @elseif ($userTransaction->type === 'transfer')
                             <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
                            @else
                            <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               

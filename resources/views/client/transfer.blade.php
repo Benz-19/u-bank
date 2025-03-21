@@ -56,7 +56,7 @@
                 Make a new Transfer
             </h2>
         </div>
-        <form class="mt-8 space-y-6" action="#" method="POST">
+        <form class="mt-8 space-y-6" action="/transfer" method="POST">
         @csrf
             <input type="hidden" name="remember" value="true">
             <div class="rounded-md shadow-sm -space-y-px">

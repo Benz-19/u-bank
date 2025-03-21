@@ -96,11 +96,14 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     //Transfer
+    Route::post('/transfer', [TransactionController::class, 'transfer']);
     Route::get('/transfer', function () {
         $transactionController = new TransactionController();
         $currentBalance = $transactionController->currentBalance();
         return view('client.transfer', ["availableBalance" => $currentBalance]);
     });
+
+
 
     // Admin Authentication
     Route::get('/admin-login', function () {
