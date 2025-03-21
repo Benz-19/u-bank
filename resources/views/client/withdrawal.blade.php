@@ -35,19 +35,22 @@
     @endif
 
     @if (session('error'))
-    <div class="bg-red-500 text-white p-3 rounded mb-4">
-        {{ session('error') }}
+    <div class="flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8">
+        <div class="bg-red-500 text-white p-3 rounded mb-4">
+            {{ session('error') }}
+        </div>
     </div>
     @endif
 
 <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
+        <p class="text-lg">Current Balance: <span class="text-green-500">$ {{$availableBalance}}</span></p>
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 Make a new Withdrawal
             </h2>
         </div>
-        <form class="mt-8 space-y-6" action="#" method="POST">
+        <form class="mt-8 space-y-6" action="/withdrawal" method="POST">
         @csrf
             <input type="hidden" name="remember" value="true">
             <div class="rounded-md shadow-sm -space-y-px">
@@ -55,10 +58,6 @@
                     <label for="amount" class="mr-2">Amount</label>
                     <input id="amount" name="withdrawAmount" type="number" class="mb-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm" placeholder="Enter an amount...">
                 </div>
-                {{-- <div class="flex mt-2">
-                    <label for="description" class="mr-2">Description</label>
-                    <input id="description" name="description" type="text" autocomplete="off" class="appearance-none rounded-none relative block w-full h-12 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-u-bank-blue focus:border-u-bank-blue focus:z-10 sm:text-sm align-text-start" placeholder="Description">
-                </div> --}}
             </div>
 
             <div>

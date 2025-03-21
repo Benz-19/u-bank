@@ -111,22 +111,24 @@ class TransactionController extends Controller
                     'status' => 'successful',
                     'recipient_id' => $user->id,
                     'reference' => $this->generateReference(),
-                    'description' => $incomingRequest['description']
+                    'description' => 'withdrawal was successful'
                 ]);
 
                 if ($makeWithdrawal) {
                     MessageService::flash('success', 'Withdrawal was successful...');
-                    return view('client.withdrawal');
+                    return redirect('/withdrawal');
                 } else {
                     MessageService::flash('error', 'Withdrawal Failed!!!');
-                    return view('client.withdrawal');
+                    return redirect('/withdrawal');
                 }
             } catch (\Exception $error) {
                 Log::error('Deposit failed: ' . $error->getMessage());
                 MessageService::flash('error', 'An unexpected error occurred.');
+                return redirect('/withdrawal');
             }
         } else {
             MessageService::flash('error', 'Insufficient Fund!!!');
+            return redirect('/withdrawal');
         }
     }
 

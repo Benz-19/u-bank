@@ -42,6 +42,7 @@
 
 <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
+        <p class="text-lg">Current Balance: <span class="text-green-500">$ {{$availableBalance}}</span></p>
         <div>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 Make a new Deposit

@@ -58,9 +58,11 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     //withdrawal
-    Route::get('/withdraw', [TransactionController::class, 'withdraw']);
-    Route::get('/withdraw', function () {
-        return view('client.withdrawal');
+    Route::post('/withdrawal', [TransactionController::class, 'withdrawal']);
+    Route::get('/withdrawal', function () {
+        $transactionController = new TransactionController();
+        $availableBalance = $transactionController->currentBalance();
+        return view('client.withdrawal', ['availableBalance' => $availableBalance]);
     });
 
 
