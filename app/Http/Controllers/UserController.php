@@ -98,7 +98,7 @@ class UserController extends Controller
 
         if ($hasAccNo) {
             MessageService::flash('error', 'You Already have an account!!!');
-            return view('client.dashboard');
+            return redirect('/generateAccountNumber');
         }
 
         // return "yes";
@@ -112,15 +112,15 @@ class UserController extends Controller
 
             if ($affectedRows > 0) {
                 MessageService::flash('success', "Account number created successfully... Your number {$newAccNo}");
-                return redirect('/client/dashboard');
+                return redirect('/generateAccountNumber');
             } else {
                 MessageService::flash('error', "Failed to create an Account number!!!");
-                return redirect('/');
+                return redirect('/generateAccountNumber');
             }
         } catch (\Exception $error) {
             Log::error('Deposit failed: ' . $error->getMessage());
             MessageService::flash('error', 'An unexpected error occurred.');
-            return redirect('/dashboard');
+            return redirect('/generateAccountNumber');
         }
     }
 }
