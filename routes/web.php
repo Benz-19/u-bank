@@ -48,6 +48,12 @@ Route::middleware(['PreventBackHistory'])->group(function () {
         return redirect('/');
     });
 
+    // Client Transactions
+    Route::post('/deposit', [TransactionController::class, 'deposit']);
+    Route::get('/deposit', function () {
+        return view('client.deposit');
+    });
+
     // Admin Authentication
     Route::get('/admin-login', function () {
         return view('admin.login');

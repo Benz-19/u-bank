@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\MessageService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
@@ -48,29 +49,36 @@ class TransactionController extends Controller
 
         $incomingRequest = $request->validate([
             'depositAmount' => ['required'],
-            'recipient_id' => ['required'],
             'description' => ['required']
         ]);
 
         // Query the DB
         $lastBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        $newBalance = $incomingRequest['depositAmount'] + $lastBalance->balance_after;
+        $previousBalance = $lastBalance ? $lastBalance->balance_after : 0;
+        $newBalance = $incomingRequest['depositAmount'] + $previousBalance;
 
-        $makeDeposit = DB::table('transactions')->insert([
-            'user_id' => $user->id,
-            'type' => 'deposit',
-            'amount' => $incomingRequest['depositAmount'],
-            'balance_after' => $newBalance,
-            'status' => 'successful',
-            'recipient_id' => $incomingRequest['recipient_id'],
-            'reference' => $this->generateReference(),
-            'description' => $incomingRequest['description']
-        ]);
+        try {
+            $makeDeposit = DB::table('transactions')->insert([
+                'user_id' => $user->id,
+                'type' => 'deposit',
+                'amount' => $incomingRequest['depositAmount'],
+                'balance_after' => $newBalance,
+                'status' => 'successful',
+                'recipient_id' => $user->id,
+                'reference' => $this->generateReference(),
+                'description' => $incomingRequest['description']
+            ]);
 
-        if ($makeDeposit) {
-            return MessageService::flash('success', 'Deposit was successful');
-        } else {
-            return MessageService::flash('error', 'Failed to make the Deposit');
+            if ($makeDeposit) {
+                MessageService::flash('success', 'Deposit was successful');
+                return view('/client/deposit');
+            } else {
+                return MessageService::flash('error', 'Failed to make the Deposit');
+            }
+        } catch (\Exception $error) {
+            // Log the exception for debugging
+            Log::error('Deposit failed: ' . $error->getMessage());
+            return MessageService::flash('error', 'An unexpected error occurred.');
         }
     }
 
