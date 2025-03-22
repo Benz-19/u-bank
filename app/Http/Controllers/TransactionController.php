@@ -165,25 +165,25 @@ class TransactionController extends Controller
 
         $incomingRequest['description'] = htmlspecialchars($incomingRequest['description']);
 
-        $userBalance = DB::table('transactions')->select('balance_after')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->orderBy('created_at', 'desc')->first();
+        $userBalance = $this->currentBalance();
         $availableBalance = $userBalance->balance_after ? $userBalance->balance_after : 0;
         if ($availableBalance <= $incomingRequest['transferAmount']) {
             MessageService::flash('error', 'Transfer Failed due to insufficent Funds!!!');
             return  redirect('/transfer');
         }
 
+        // dd($newBalance);
         try {
+            $newBalance = $availableBalance - $incomingRequest['transferAmount'];
             // Obtain the recipient ID
             $recipient = DB::table('users')
                 ->select('id', 'account_no')
                 ->where('account_no', $incomingRequest['recipientAccount_no'])
                 ->first();
-            $newBalance = $availableBalance - $incomingRequest['transferAmount'];
 
             if (!$recipient) {
                 return redirect()->back()->with('error', 'Recipient Account wasn\'t found.');
             }
-            // dd($recipient);
             $makeTransfer = DB::table('transactions')->insert([
                 'user_id' => $user->id,
                 'type' => 'transfer',
