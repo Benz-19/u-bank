@@ -20,10 +20,9 @@ class TransactionController extends Controller
         if (!$user) {
             return "Failed to retrieve data!";
         }
-        $userTransactions[] = DB::table('transactions')->where('senderAcc_no', $user->account_no)->get();
-        if (array_key_exists(0, $userTransactions)) {
-            $userTransactions = DB::table('transactions')->where('recipientAcc_no', $user->account_no)->get();
-        }
+        // get the user transactions based on their activities (sending/receiving)
+        $userTransactions = DB::table('transactions')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->get();
+
         return $userTransactions;
     }
 
@@ -41,6 +40,10 @@ class TransactionController extends Controller
         // Check if the user has made any transaction(s)
         $userLatestTransactions_id_balance = $userLatestTransactions_id === null ? $balance : $userLatestTransactions_id->balance_after;
         $userLatestTransactions_accNo_balance = $userLatestTransactions_accNo === null ? $balance : $userLatestTransactions_accNo->balance_after;
+
+        if ($userLatestTransactions_id_balance !== 0) {
+            return $userLatestTransactions_id_balance; //if the user has performed a transaction personally
+        }
 
         if ($userLatestTransactions_id_balance || $userLatestTransactions_accNo_balance) {
             $balance =  $userLatestTransactions_accNo_balance  > $userLatestTransactions_id_balance ? $userLatestTransactions_accNo_balance : $userLatestTransactions_id_balance;
@@ -66,7 +69,7 @@ class TransactionController extends Controller
         $lastBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
         $previousBalance = $lastBalance ? $lastBalance->balance_after : 0;
         $newBalance = $incomingRequest['depositAmount'] + $previousBalance;
-
+        // dd($previousBalance);
         try {
             $makeDeposit = DB::table('transactions')->insert([
                 'user_id' => $user->id,
@@ -84,14 +87,16 @@ class TransactionController extends Controller
 
             if ($makeDeposit) {
                 MessageService::flash('success', 'Deposit was successful');
-                return view('/client/deposit');
+                return redirect('/deposit');
             } else {
-                return MessageService::flash('error', 'Failed to make the Deposit');
+                MessageService::flash('error', 'Failed to make the Deposit');
+                return redirect('/deposit');
             }
         } catch (\Exception $error) {
             // Log the exception for debugging
             Log::error('Deposit failed: ' . $error->getMessage());
-            return MessageService::flash('error', 'An unexpected error occurred.');
+            MessageService::flash('error', 'An unexpected error occurred.');
+            return redirect('/deposit');
         }
     }
 
@@ -105,13 +110,12 @@ class TransactionController extends Controller
         $incomingRequest = $request->validate([
             'withdrawAmount' => ['required']
         ]);
-        $incomingRequest['withdrawAmount'] = htmlspecialchars($incomingRequest['withdrawAmount']);
 
         // Query the DB
-        $currentBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $currentBalance = DB::table('transactions')->select('balance_after')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->orderBy('created_at', 'desc')->first();
         $availableBalance = $currentBalance ? $currentBalance->balance_after : 0;
 
-        if ($availableBalance > $incomingRequest['withdrawAmount']) {
+        if ($availableBalance >= $incomingRequest['withdrawAmount']) {
 
             $newBalance = $availableBalance - $incomingRequest['withdrawAmount'];
 
@@ -161,17 +165,25 @@ class TransactionController extends Controller
 
         $incomingRequest['description'] = htmlspecialchars($incomingRequest['description']);
 
-        $userBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $userBalance = DB::table('transactions')->select('balance_after')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->orderBy('created_at', 'desc')->first();
         $availableBalance = $userBalance->balance_after ? $userBalance->balance_after : 0;
-
-        if ($availableBalance < $incomingRequest['transferAmount']) {
+        if ($availableBalance <= $incomingRequest['transferAmount']) {
             MessageService::flash('error', 'Transfer Failed due to insufficent Funds!!!');
             return  redirect('/transfer');
         }
 
         try {
+            // Obtain the recipient ID
+            $recipient = DB::table('users')
+                ->select('id', 'account_no')
+                ->where('account_no', $incomingRequest['recipientAccount_no'])
+                ->first();
             $newBalance = $availableBalance - $incomingRequest['transferAmount'];
 
+            if (!$recipient) {
+                return redirect()->back()->with('error', 'Recipient Account wasn\'t found.');
+            }
+            // dd($recipient);
             $makeTransfer = DB::table('transactions')->insert([
                 'user_id' => $user->id,
                 'type' => 'transfer',
@@ -180,9 +192,9 @@ class TransactionController extends Controller
                 'senderAcc_no' => $user->account_no,
                 'recipientAcc_no' => $incomingRequest['recipientAccount_no'],
                 'status' => 'successful',
-                'recipient_id' => $user->id,
+                'recipient_id' => $recipient->id,
                 'reference' => $this->generateReference(),
-                'description' => 'withdrawal was successful'
+                'description' => 'transfer was successful'
             ]);
 
             if ($makeTransfer) {

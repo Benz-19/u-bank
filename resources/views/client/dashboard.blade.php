@@ -105,7 +105,7 @@
                             @if ($userTransaction->type === 'deposit')
                             <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
                             @elseif ($userTransaction->type === 'transfer')
-                            <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
+                            <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               
                            @else
                            <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               
                            @endif
