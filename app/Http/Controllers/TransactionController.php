@@ -201,7 +201,7 @@ class TransactionController extends Controller
 
     public function filterDate()
     {
-        $transactionMonths = []; //months the user carried out a transaction
+        $transactionMonths = [];
         $months = [
             "01" => "January",
             "02" => "February",
@@ -221,22 +221,22 @@ class TransactionController extends Controller
 
         $userTransactionsMonths = DB::table('transactions')
             ->select(DB::raw('YEAR(created_at) as year, MONTH(created_at) as month, DAY(created_at) as day'))
-            ->where('user_id', $user->id)
+            ->where('senderAcc_no', $user->account_no)
+            ->orWhere('recipientAcc_no', $user->account_no)
             ->orderBy('created_at', 'asc')
             ->get();
 
-        foreach ($userTransactionsMonths as $usrTransMonth) {
-            $monthNumber = sprintf("%02d", $usrTransMonth->month); // Format month as two-digit string
-            $yearNumber = sprintf("%04d", $usrTransMonth->year);
-            $dayNumber = sprintf("%02d", $usrTransMonth->day);
+        foreach ($userTransactionsMonths as $UTM) {
+            $monthNumber = sprintf("%02d", $UTM->month);
+            $yearNumber = sprintf("%04d", $UTM->year);
+            $dayNumber = sprintf("%02d", $UTM->day);
             if (array_key_exists($monthNumber, $months)) {
-                $transactionMonths[] =  $months[$monthNumber] . " " . $dayNumber . "," . $yearNumber;
+                $transactionMonths[] = $months[$monthNumber] . " " . $dayNumber . "," . $yearNumber;
             }
         }
 
         return $transactionMonths;
     }
-
     protected function generateReference()
     {
         $prefix = 'TXN';
