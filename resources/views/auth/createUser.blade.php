@@ -47,6 +47,7 @@
         <!-- Registration Form -->
         <form action="/register-user" method="POST">
             {{session('registration_role')}}
+            {{dd(session('registration_role'))}}
             @csrf
             <input type="hidden" name="role" value="{{ session('registration_role') }}"/>
             <div class="mb-6">

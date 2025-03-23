@@ -25,7 +25,8 @@ Route::get('/logout', [UserController::class, 'logoutUser']);
 Route::middleware(['PreventBackHistory'])->group(function () {
     // Client Authentication
     Route::get('/client-login', function () {
-        return view('client.login');
+        session(['registration_role' => 'client']);
+        return view('client.login', ['registration_role' => session(['registration_role' => 'client'])]);
     });
 
     Route::get('/client/dashboard', function () {
