@@ -41,9 +41,10 @@
 
         <!-- Login Form -->
         <form action="/login-user" method="POST">
-            {{-- @php
-            session(['registration_role'=>$registration_role]);   
-           @endphp --}}
+            @php
+            session(['registration_role'=>'client']);   
+           @endphp
+           {{session('registration_role')}}
             @csrf
             <div class="mb-6">
                 <input
