@@ -21,9 +21,8 @@ class UserController extends Controller
             'name' => ['required', 'min:3', 'max:100',],
             'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('users', 'email')],
             'password' => ['required', 'min:3', 'max:100'],
-            'role' => ['required', 'in:client, admin']
+            'role' => ['required']
         ]);
-
         $incomingRequest['password'] = bcrypt($incomingRequest['password']);
         $user = User::create($incomingRequest);
         if ($user) {
