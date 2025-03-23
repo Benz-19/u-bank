@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Reference to the user
             $table->enum('type', ['deposit', 'withdrawal', 'transfer', 'payment']); // Type of transaction
             $table->decimal('amount', 15, 2); // Transaction amount
-            $table->decimal('balance_after', 15, 2); // Balance after transaction
+            $table->decimal('previous_balance', 15, 2); // Balance before transaction
+            $table->decimal('current_balance', 15, 2); // Balance after transaction
             $table->string('currency', 10)->default('USD'); // Currency type
             $table->integer('senderAcc_no');
             $table->integer('recipientAcc_no');

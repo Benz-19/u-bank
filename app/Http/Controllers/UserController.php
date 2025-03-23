@@ -9,6 +9,7 @@ use App\Services\MessageService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TransactionController;
 
 /** @var \Illuminate\Contracts\Auth\Factory $auth */
 
@@ -108,7 +109,21 @@ class UserController extends Controller
                 ->where('id', $user->id)
                 ->update(['account_no' => $newAccNo]);
 
-            if ($affectedRows > 0) {
+            $transaction = new TransactionController;
+            $makeDeposit = DB::table('transactions')->insert([
+                'user_id' => $user->id,
+                'type' => 'deposit',
+                'amount' => 0,
+                'previous_balance' => 0,
+                'current_balance' => 0,
+                'senderAcc_no' => $newAccNo,
+                'recipientAcc_no' => $newAccNo,
+                'status' => 'successful',
+                'recipient_id' => $user->id,
+                'reference' => $transaction->generateReference(),
+                'description' => 'initial deposit'
+            ]);
+            if ($affectedRows > 0 && $makeDeposit) {
                 MessageService::flash('success', "Account number created successfully... Your number {$newAccNo}");
                 return redirect('/generateAccountNumber');
             } else {

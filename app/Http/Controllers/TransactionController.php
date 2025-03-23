@@ -20,8 +20,8 @@ class TransactionController extends Controller
         if (!$user) {
             return "Failed to retrieve data!";
         }
-        // get the user transactions based on their activities (sending/receiving)
-        $userTransactions = DB::table('transactions')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->get();
+        // get the user transactions
+        $userTransactions = DB::table('transactions')->where('user_id', $user->id)->get();
 
         return $userTransactions;
     }
@@ -33,25 +33,13 @@ class TransactionController extends Controller
             return "Failed to retrieve data!";
         }
 
-        $userLatestTransactions_id = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        $userLatestTransactions_accNo = DB::table('transactions')->select('balance_after')->where('recipientAcc_no', $user->account_no)->orderBy('created_at', 'desc')->first();
+        $userLatestTransactions_id = DB::table('transactions')->select('current_balance')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
 
         $balance = 0;
         // Check if the user has made any transaction(s)
-        $userLatestTransactions_id_balance = $userLatestTransactions_id === null ? $balance : $userLatestTransactions_id->balance_after;
-        $userLatestTransactions_accNo_balance = $userLatestTransactions_accNo === null ? $balance : $userLatestTransactions_accNo->balance_after;
+        $userLatestTransactions_id_balance = $userLatestTransactions_id === null ? $balance : $userLatestTransactions_id->current_balance;
 
-        if ($userLatestTransactions_id_balance !== 0) {
-            return $userLatestTransactions_id_balance; //if the user has performed a transaction personally
-        }
-
-        if ($userLatestTransactions_id_balance || $userLatestTransactions_accNo_balance) {
-            $balance =  $userLatestTransactions_accNo_balance  > $userLatestTransactions_id_balance ? $userLatestTransactions_accNo_balance : $userLatestTransactions_id_balance;
-            return $balance;
-        } else {
-            // MessageService::flash('error', "Error... Failed to fetch the current balance...");
-            return 0;
-        }
+        return $userLatestTransactions_id_balance;
     }
 
     public function deposit(Request $request)
@@ -67,8 +55,8 @@ class TransactionController extends Controller
         ]);
 
         // Query the DB
-        $lastBalance = DB::table('transactions')->select('balance_after')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        $previousBalance = $lastBalance ? $lastBalance->balance_after : 0;
+        $lastBalance = DB::table('transactions')->select('previous_balance')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+        $previousBalance = $lastBalance ? $lastBalance->current_balance : 0;
         $newBalance = $incomingRequest['depositAmount'] + $previousBalance;
         // dd($previousBalance);
         try {
@@ -76,10 +64,9 @@ class TransactionController extends Controller
                 'user_id' => $user->id,
                 'type' => 'deposit',
                 'amount' => $incomingRequest['depositAmount'],
-                'balance_after' => $newBalance,
+                'current_balance' => $newBalance,
                 'senderAcc_no' => $user->account_no,
                 'recipientAcc_no' => $user->account_no,
-                'account_no' => $user->account_no,
                 'status' => 'successful',
                 'recipient_id' => $user->id,
                 'reference' => $this->generateReference(),
@@ -114,7 +101,7 @@ class TransactionController extends Controller
 
         // Query the DB
         $currentBalance = DB::table('transactions')->select('balance_after')->where('senderAcc_no', $user->account_no)->orWhere('recipientAcc_no', $user->account_no)->orderBy('created_at', 'desc')->first();
-        $availableBalance = $currentBalance ? $currentBalance->balance_after : 0;
+        $availableBalance = $currentBalance ? $currentBalance->current_balance : 0;
 
         if ($availableBalance >= $incomingRequest['withdrawAmount']) {
 
@@ -125,7 +112,7 @@ class TransactionController extends Controller
                     'user_id' => $user->id,
                     'type' => 'withdrawal',
                     'amount' => $incomingRequest['withdrawAmount'],
-                    'balance_after' => $newBalance,
+                    'current_balance' => $newBalance,
                     'senderAcc_no' => $user->account_no,
                     'recipientAcc_no' => $user->account_no,
                     'status' => 'successful',
@@ -167,7 +154,7 @@ class TransactionController extends Controller
         $incomingRequest['description'] = htmlspecialchars($incomingRequest['description']);
 
         $userBalance = $this->currentBalance();
-        $availableBalance = $userBalance->balance_after ? $userBalance->balance_after : 0;
+        $availableBalance = $userBalance->current_balance ? $userBalance->current_balance : 0;
         if ($availableBalance <= $incomingRequest['transferAmount']) {
             MessageService::flash('error', 'Transfer Failed due to insufficent Funds!!!');
             return  redirect('/transfer');
@@ -189,7 +176,7 @@ class TransactionController extends Controller
                 'user_id' => $user->id,
                 'type' => 'transfer',
                 'amount' => $incomingRequest['transferAmount'],
-                'balance_after' => $newBalance,
+                'current_balance' => $newBalance,
                 'senderAcc_no' => $user->account_no,
                 'recipientAcc_no' => $incomingRequest['recipientAccount_no'],
                 'status' => 'successful',
@@ -250,7 +237,7 @@ class TransactionController extends Controller
 
         return $transactionMonths;
     }
-    protected function generateReference()
+    public function generateReference()
     {
         $prefix = 'TXN';
         $datePart = date('YmdHis');
