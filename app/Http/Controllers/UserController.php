@@ -52,9 +52,9 @@ class UserController extends Controller
                 $request->session()->put('role', $user->role); //store the role
                 $request->session()->put('user_id', $user->id); //user id
                 // dd($user->role);
-                if ($user->role === $incomingRequest['role']) {
+                if ($user->role === 'admin') {
                     return redirect('/admin/dashboard'); //admin redirect
-                } elseif ($user->role == $incomingRequest['role']) {
+                } elseif ($user->role === 'client') {
                     return redirect('/client/dashboard'); //client redirect
                 } else {
                     return redirect('/');
