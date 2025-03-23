@@ -27,10 +27,9 @@ class UserController extends Controller
         $incomingRequest['password'] = bcrypt($incomingRequest['password']);
 
         $user = User::create($incomingRequest);
-        dd($user);
         if ($user) {
             MessageService::flash('success', 'Account was created successfully!');
-            return redirect('/createUser');
+            return redirect('/create-user');
         } else {
             MessageService::flash('error', 'Error, failed to create your account!');
             return redirect()->back()->withInput(); // Redirect back with input

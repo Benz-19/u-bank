@@ -1,11 +1,11 @@
 <?php
 
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransactionController;
-
 
 // Landing Page
 Route::get('/', function () {
@@ -14,7 +14,8 @@ Route::get('/', function () {
 
 // User Authentication Routes
 Route::get('/create-user', function () {
-    return view('auth.createUser');
+    $userRole = session('userRole', ''); // Default to empty if not set
+    return view('auth.createUser', ['registration_role' => $userRole]);
 });
 Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
@@ -25,7 +26,8 @@ Route::get('/logout', [UserController::class, 'logoutUser']);
 Route::middleware(['PreventBackHistory'])->group(function () {
     // Client Authentication
     Route::get('/client-login', function () {
-        return view('client.login');
+        session(['userRole' => 'client']); // Store userRole in session
+        return view('client.login', ['registration_role' => session('userRole')]);
     });
 
     Route::get('/client/dashboard', function () {
