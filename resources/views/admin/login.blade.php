@@ -35,6 +35,7 @@
         <form action="/login-user" method="POST">
         {{$userRole}}
             @csrf
+            <input type="hidden" name="role" value="{{$userRole}}"/>
             <div class="mb-6">
                 <input
                     type="email"

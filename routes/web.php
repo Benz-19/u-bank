@@ -27,7 +27,7 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     // Client Authentication
     Route::get('/client-login', function () {
         session(['userRole' => 'client']); // Store userRole in session
-        return view('client.login', ['registration_role' => session('userRole')]);
+        return view('client.login', ['userRole' => session('userRole')]);
     });
 
     Route::get('/client/dashboard', function () {
@@ -114,6 +114,10 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        if (Auth::check()) {
+            return view('admin.dashboard');
+        }
+
+        return redirect('/');
     });
 });

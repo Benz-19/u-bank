@@ -38,7 +38,8 @@ class UserController extends Controller
     {
         $incomingRequest = $request->validate([
             'email' => ['required', 'min:3', 'max:100'],
-            'password' => ['required', 'min:3', 'max:100']
+            'password' => ['required', 'min:3', 'max:100'],
+            'role' => ['required']
         ]);
 
         if (empty($incomingRequest['email']) && empty($incomingRequest['password'])) {
@@ -50,10 +51,10 @@ class UserController extends Controller
                 $user = Auth::user(); //Get the authenticated user
                 $request->session()->put('role', $user->role); //store the role
                 $request->session()->put('user_id', $user->id); //user id
-
-                if ($user->role === 'admin') {
+                // dd($user->role);
+                if ($user->role === $incomingRequest['role']) {
                     return redirect('/admin/dashboard'); //admin redirect
-                } elseif ($user->role === 'client') {
+                } elseif ($user->role == $incomingRequest['role']) {
                     return redirect('/client/dashboard'); //client redirect
                 } else {
                     return redirect('/');
