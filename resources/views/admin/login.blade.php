@@ -33,9 +33,7 @@
 
         <!-- Login Form -->
         <form action="/login-user" method="POST">
-            @php
-             session(['registration_role'=>'admin']);   
-            @endphp
+        {{$userRole}}
             @csrf
             <div class="mb-6">
                 <input

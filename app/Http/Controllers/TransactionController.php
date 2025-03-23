@@ -49,7 +49,8 @@ class TransactionController extends Controller
             $balance =  $userLatestTransactions_accNo_balance  > $userLatestTransactions_id_balance ? $userLatestTransactions_accNo_balance : $userLatestTransactions_id_balance;
             return $balance;
         } else {
-            return "Error... Failed to fetch the current balance...";
+            // MessageService::flash('error', "Error... Failed to fetch the current balance...");
+            return 0;
         }
     }
 

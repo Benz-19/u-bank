@@ -26,7 +26,7 @@
         </div>
         <button type="submit" class="py-3 bg-blue-500 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
             @php
-                $url = (session('registration_role') === 'client') ? '/client-login' : '/admin-login'; //redirects the user to the appropriate login page
+                $url = (session('userRole') === 'client') ? '/client-login' : '/admin-login'; //redirects the user to the appropriate login page
             @endphp
             <a href="{{$url}}">Login Here</a>
         </button>
@@ -47,10 +47,9 @@
 
         <!-- Registration Form -->
         <form action="/register-user" method="POST">
-            {{session('registration_role')}}
-
-            @csrf
-            <input type="hidden" name="role" value="{{ session('registration_role') }}"/>
+            {{$userRole}}
+          @csrf
+            <input type="hidden" name="role" value="{{$userRole}}"/>
             <div class="mb-6">
                 <input type="text" name="name" id="name" placeholder="Full Name"
                        class="w-full p-3 bg-transparent border-2 border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"

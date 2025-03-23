@@ -15,7 +15,7 @@ Route::get('/', function () {
 // User Authentication Routes
 Route::get('/create-user', function () {
     $userRole = session('userRole', ''); // Default to empty if not set
-    return view('auth.createUser', ['registration_role' => $userRole]);
+    return view('auth.createUser', ['userRole' => $userRole]);
 });
 Route::post('/register-user', [UserController::class, 'register']);
 Route::post('/login-user', [UserController::class, 'loginUser']);
@@ -109,7 +109,8 @@ Route::middleware(['PreventBackHistory'])->group(function () {
 
     // Admin Authentication
     Route::get('/admin-login', function () {
-        return view('admin.login');
+        session(['userRole' => 'admin']);
+        return view('admin.login', ['userRole' => session('userRole')]);
     });
 
     Route::get('/admin/dashboard', function () {
