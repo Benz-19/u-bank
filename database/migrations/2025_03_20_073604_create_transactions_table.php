@@ -25,7 +25,8 @@ return new class extends Migration
             $table->foreignId('recipient_id')->nullable()->constrained('users')->onDelete('cascade'); // For transfers
             $table->string('reference')->unique(); // Unique transaction reference
             $table->text('description')->nullable(); // Optional description
-            $table->timestamps();
+            $table->timestamps('created_at');
+            $table->timestamps('updated_at');
         });
     }
 

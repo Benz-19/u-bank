@@ -106,6 +106,8 @@
                             <td class="p-2 text-green-600">+ {{$userTransaction->amount}}</td>                               
                             @elseif ($userTransaction->type === 'transfer')
                             <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               
+                            @elseif ($userTransaction->type === 'payment')
+                            <td class="p-2 text-green-600">- {{$userTransaction->amount}}</td>                               
                            @else
                            <td class="p-2 text-red-600">- {{$userTransaction->amount}}</td>                               
                            @endif
