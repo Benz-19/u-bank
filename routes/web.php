@@ -134,5 +134,6 @@ Route::middleware(['PreventBackHistory'])->group(function () {
         ]);
     });
 
-    Route::get('/userTransaction/{id}', [AdminController::class, 'getClientTransaction']);
+    Route::get('/clientTransaction/{id}', [AdminController::class, 'getClientTransaction']);
+    Route::get('deleteClient/{id}', [AdminController::class, 'deleteClient']);
 });

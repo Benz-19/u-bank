@@ -76,13 +76,13 @@
                         <td class="p-3 border border-gray-700">{{ $client->name }}</td>
                         <td class="p-3 border border-gray-700">{{ $client->email }}</td>
                         <td class="p-3 text-center border border-gray-700">
-                            <a href="{{url('/userTransaction', $client->id)}}">
+                            <a href="{{url('/clientTransaction', $client->id)}}">
                                 <button class="bg-green-500 hover:bg-gray-600 text-white px-3 py-1 rounded ml-2">View Transactions</button>
                             </a>
-                            <a href="/">
+                            <a href="{{url('/editClient', $client->id)}}">
                                 <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit Client</button>                                
                             </a>
-                            <a href="">
+                            <a href="{{url('/deleteClient', $client->id)}}">
                                 <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2">Delete</button>
                             </a>
                         </td>

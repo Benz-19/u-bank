@@ -34,19 +34,8 @@ class TransactionController extends Controller
         }
 
         $userLatestTransactions_id = DB::table('transactions')->select('current_balance')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        // $userLatestTransactions_acc = DB::table('transactions')->select('current_balance')->where('recipient_id', $user->id)->orderBy('created_at', 'desc')->first();
-
-        // $balance = 0;
-        // // Check if the user has made any transaction(s)
-        // $userLatestTransactions_id_balance = $userLatestTransactions_id === null ? $balance : $userLatestTransactions_id->current_balance;
-        // $userLatestTransactions_acc_balance = $userLatestTransactions_acc === null ? $balance : $userLatestTransactions_acc->current_balance;
-
-        // if ($userLatestTransactions_id_balance >  $userLatestTransactions_acc_balance) {
-        //     return $userLatestTransactions_id_balance;
-        // } elseif ($userLatestTransactions_acc_balance >  $userLatestTransactions_id_balance) {
-        //     return  $userLatestTransactions_id_balance;
-        // }
-        return  $userLatestTransactions_id->current_balance;
+        $balance = $userLatestTransactions_id === null ? 0 : $userLatestTransactions_id->current_balance;
+        return  $balance;
     }
 
     public function deposit(Request $request)
@@ -56,6 +45,12 @@ class TransactionController extends Controller
             return "Failed to retrieve data!";
         }
 
+        if (!$user->account_no) {
+            MessageService::flash('error', 'You don\'t have an account number in order to perform any transation');
+            MessageService::flash('error', 'Go back to the dashboard to genrate one...');
+            return view('client.deposit');
+        }
+
         $incomingRequest = $request->validate([
             'depositAmount' => ['required'],
             'description' => ['required']
@@ -63,6 +58,7 @@ class TransactionController extends Controller
 
         // Query the DB
         $lastBalance = DB::table('transactions')->select('previous_balance')->where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
+
         $previousBalance = $lastBalance ? $lastBalance->previous_balance : 0;
         $newBalance = $incomingRequest['depositAmount'] + $previousBalance;
         // dd($previousBalance);
@@ -101,6 +97,12 @@ class TransactionController extends Controller
         $user = Auth::user();
         if (!$user) {
             return "Failed to validate the user!!!";
+        }
+
+        if (!$user->account_no) {
+            MessageService::flash('error', 'You don\'t have an account number in order to perform any transation');
+            MessageService::flash('error', 'Go back to the dashboard to genrate one...');
+            return view('client.deposit');
         }
 
         $incomingRequest = $request->validate([
@@ -151,8 +153,15 @@ class TransactionController extends Controller
     public function transfer(Request $request)
     {
         $user = Auth::user();
-        if (!$user)
+        if (!$user) {
             return "Failed to validate the user!!!";
+        }
+
+        if (!$user->account_no) {
+            MessageService::flash('error', 'You don\'t have an account number in order to perform any transation');
+            MessageService::flash('error', 'Go back to the dashboard to genrate one...');
+            return view('client.deposit');
+        }
 
         $incomingRequest = $request->validate([
             'transferAmount' => ['required'],
