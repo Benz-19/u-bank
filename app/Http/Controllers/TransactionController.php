@@ -220,7 +220,7 @@ class TransactionController extends Controller
                 'recipientAcc_no' => $incomingRequest['recipientAccount_no'],
                 'status' => 'successful',
                 'recipient_id' => $recipient->id,
-                'reference' => $referenceId,
+                'reference' => $this->generateReference(),
                 'description' => 'payment Received'
             ]);
 
