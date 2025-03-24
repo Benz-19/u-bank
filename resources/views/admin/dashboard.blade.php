@@ -61,6 +61,12 @@
                       </tr>
                   </thead>
                   <tbody id="userTable" class="divide-y divide-gray-700">
+                    <td class='p-2'>${name}</td>
+                    <td class='p-2'>${email}</td>
+                    <td class='p-2'>
+                        <button class='bg-yellow-500 px-2 py-1 rounded'>Edit</button>
+                        <button class='bg-red-500 px-2 py-1 rounded ml-2'>Delete</button>
+                    </td>
                   </tbody>
               </table>
           </div>

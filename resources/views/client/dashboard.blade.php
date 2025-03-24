@@ -31,7 +31,7 @@
 
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="flex flex-col w-64 bg-blue-900 text-white p-5 space-y-6">
+        <aside class="flex flex-col w-64 bg-blue-900 text-white p-5 space-y-6 h-600">
             <h1 class="text-2xl font-bold">U-Bank</h1>
             <nav class="space-y-4">
                 <a href="#" class="block p-2 rounded hover:bg-blue-700">Dashboard</a>
