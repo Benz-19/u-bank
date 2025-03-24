@@ -135,5 +135,29 @@ Route::middleware(['PreventBackHistory'])->group(function () {
     });
 
     Route::get('/clientTransaction/{id}', [AdminController::class, 'getClientTransaction']);
-    Route::get('deleteClient/{id}', [AdminController::class, 'deleteClient']);
+    Route::post('/editClient/{id}', [AdminController::class, 'editClient']);
+    Route::get('/editClient/{id}', function ($id) {
+        if (!Auth::check()) {
+
+            return redirect('/');
+        }
+
+        $admin = Auth::user();
+
+
+        $client = DB::table('users')->select('*')->where('id', $id)->first();
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found.');
+        }
+
+        return view('admin.editClient', [
+            'adminName' => $admin->name,
+            'adminId' => $admin->id,
+            'name' => $client->name,
+            'email' => $client->email,
+            'accountNo' => $client->account_no,
+            'id' => $id,
+        ]);
+    });
+    Route::get('/deleteClient/{id}', [AdminController::class, 'deleteClient']);
 });

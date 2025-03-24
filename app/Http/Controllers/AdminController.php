@@ -33,6 +33,48 @@ class AdminController extends Controller
         ]);
     }
 
+    public function editClient($id, Request $request)
+    {
+        if (!Auth::check()) {
+
+            return redirect('/');
+        }
+
+        $incomingRequest = $request->validate([
+            'name' => ['required'],
+            'email' => ['required'],
+            'accountNo' => [''] ?? null
+        ]);
+
+        $incomingRequest['name'] = htmlspecialchars($incomingRequest['name']);
+
+        $admin = Auth::user();
+        $client = DB::table('users')->select('*')->where('id', $id)->first();
+
+        $updateClient = DB::table('users')
+            ->where('id', $id)
+            ->update([
+                'name' => $incomingRequest['name'],
+                'email' => $incomingRequest['email'],
+                'account_no' => $incomingRequest['accountNo']
+            ]);
+
+        if ($updateClient === 1) {
+            MessageService::flash('success', 'Client Details were updated successfully...');
+            return view('admin.editClient', [
+                'adminName' => $admin->name,
+                'adminId' => $admin->id,
+                'name' => $client->name,
+                'email' => $client->email,
+                'accountNo' => $client->account_no,
+                'id' => $id,
+            ]);
+        } else {
+            return redirect()->back();
+        }
+    }
+
+
     public function deleteClient($id)
     {
         // Ensure the admin is authenticated

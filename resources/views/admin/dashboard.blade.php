@@ -29,9 +29,9 @@
       <aside class="w-64 bg-gray-800 p-5 space-y-6">
           <h1 class="text-xl font-bold">U-Bank Admin</h1>
           <div class="flex flex-col mb-6">
-          <p class="font-bold">Admin: {{$adminName}}</p>
-          <p class="font-bold">Id: {{$adminId}}</p>
-        </div>
+            <p class="font-bold">Admin: {{$adminName}}</p>
+            <p class="font-bold">Id: {{$adminId}}</p>
+         </div>
           <nav class="space-y-4">
                 <a href="/admin/dashboard">
                     <button class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
