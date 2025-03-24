@@ -28,6 +28,10 @@
       <!-- Sidebar -->
       <aside class="w-64 bg-gray-800 p-5 space-y-6">
           <h1 class="text-xl font-bold">U-Bank Admin</h1>
+          <div class="flex flex-col mb-6">
+          <p class="font-bold">Admin: {{$adminName}}</p>
+          <p class="font-bold">Id: {{$adminId}}</p>
+        </div>
           <nav class="space-y-4">
               <button onclick="showPanel('users')" class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
                   Users
@@ -43,10 +47,10 @@
       
       <!-- Main Content -->
       <main class="flex-1 p-6">
-          <!-- Users Panel with CRUD -->
+          <!-- Users Panel -->
           <div id="users" class="panel">
               <h2 class="text-2xl font-bold">Manage Users</h2>
-              <div class="flex justify-between">
+              <div class="flex justify-between mb-4">
                 <button onclick="addUser()" class="mt-4 bg-blue-500 px-4 py-2 rounded">Add User</button>
                 <a href="/logout">
                   <button class="mt-4 bg-red-500 px-4 py-2 rounded">logout</button>
@@ -66,8 +70,15 @@
                         <td class="p-3 border border-gray-700">{{ $client->name }}</td>
                         <td class="p-3 border border-gray-700">{{ $client->email }}</td>
                         <td class="p-3 text-center border border-gray-700">
-                            <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit</button>
-                            <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2">Delete</button>
+                            <a href="/">
+                                <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit</button>                                
+                            </a>
+                            <a href="">
+                                <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2">Delete</button>
+                            </a>
+                            <a href="/userTransaction">
+                                <button class="bg-green-500 hover:bg-gray-600 text-white px-3 py-1 rounded ml-2">View Transactions</button>
+                            </a>
                         </td>
                     </tr>
                     @endforeach

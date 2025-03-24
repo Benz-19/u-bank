@@ -123,11 +123,18 @@ Route::middleware(['PreventBackHistory'])->group(function () {
 
     // Admin Action
     Route::get('/admin/dashboard', function () {
+        $adminData = Auth::user();
         $AdminController = new AdminController;
         $getAllClients = $AdminController->getAllClients();
         // dd($getAllClients);
         return view('admin.dashboard', [
+            'adminName' => $adminData->name,
+            'adminId' => $adminData->id,
             'getAllClients' => $getAllClients,
         ]);
+    });
+
+    Route::get('/userTransaction', function () {
+        return view('admin.userTransaction');
     });
 });
