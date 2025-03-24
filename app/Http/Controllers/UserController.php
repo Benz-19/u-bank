@@ -18,20 +18,26 @@ class UserController extends Controller
     public $role;
     public function register(Request $request)
     {
-        $incomingRequest = $request->validate([
-            'name' => ['required', 'min:3', 'max:100',],
-            'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:3', 'max:100'],
-            'role' => ['required']
-        ]);
-        $incomingRequest['password'] = bcrypt($incomingRequest['password']);
-        $user = User::create($incomingRequest);
-        if ($user) {
-            MessageService::flash('success', 'Account was created successfully!');
+        try {
+            $incomingRequest = $request->validate([
+                'name' => ['required', 'min:3', 'max:100',],
+                'email' => ['required', 'min:3', 'max:100', 'email', Rule::unique('users', 'email')],
+                'password' => ['required', 'min:3', 'max:100'],
+                'role' => ['required']
+            ]);
+            $incomingRequest['password'] = bcrypt($incomingRequest['password']);
+
+            $user = User::create($incomingRequest);
+            if ($user) {
+                MessageService::flash('success', 'Account was created successfully!');
+                return redirect('/create-user');
+            } else {
+                MessageService::flash('error', 'Error, failed to create your account!');
+                return redirect('/create-user');  // Redirect back with input
+            }
+        } catch (\Exception $e) {
+            MessageService::flash('error', 'Error, something went wrong...');
             return redirect('/create-user');
-        } else {
-            MessageService::flash('error', 'Error, failed to create your account!');
-            return redirect('/create-user');  // Redirect back with input
         }
     }
 
