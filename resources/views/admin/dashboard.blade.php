@@ -33,15 +33,21 @@
           <p class="font-bold">Id: {{$adminId}}</p>
         </div>
           <nav class="space-y-4">
-              <button onclick="showPanel('users')" class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
-                  Users
-              </button>
-              <button onclick="showPanel('transactions')" class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
-                  Transactions
-              </button>
-              <button onclick="showPanel('settings')" class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
-                  Settings
-              </button>
+                <a href="/admin/dashboard">
+                    <button class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
+                        Users
+                    </button>
+                </a>
+                <a href="/admin/dashboard">
+                    <button class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
+                        Transactions
+                    </button>
+                </a>
+                <a href="/admin/dashboard">
+                    <button class="flex items-center gap-3 p-2 rounded hover:bg-gray-700 w-full">
+                        Settings
+                    </button>
+                </a>
           </nav>
       </aside>
       
@@ -70,14 +76,14 @@
                         <td class="p-3 border border-gray-700">{{ $client->name }}</td>
                         <td class="p-3 border border-gray-700">{{ $client->email }}</td>
                         <td class="p-3 text-center border border-gray-700">
+                            <a href="{{url('/userTransaction', $client->id)}}">
+                                <button class="bg-green-500 hover:bg-gray-600 text-white px-3 py-1 rounded ml-2">View Transactions</button>
+                            </a>
                             <a href="/">
-                                <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit</button>                                
+                                <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit Client</button>                                
                             </a>
                             <a href="">
                                 <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2">Delete</button>
-                            </a>
-                            <a href="/userTransaction">
-                                <button class="bg-green-500 hover:bg-gray-600 text-white px-3 py-1 rounded ml-2">View Transactions</button>
                             </a>
                         </td>
                     </tr>
@@ -86,58 +92,8 @@
             </table>
             
           </div>
-          
-          <!-- Transactions Panel -->
-          <div id="transactions" class="panel hidden">
-              <h2 class="text-2xl font-bold">Transactions</h2>
-          </div>
-          
-          <!-- Settings Panel -->
-          <div id="settings" class="panel hidden">
-              <h2 class="text-2xl font-bold">Settings</h2>
-          </div>
       </main>
   </div>
 
-  <script>
-      function showPanel(panelId) {
-          document.querySelectorAll('.panel').forEach(panel => panel.classList.add('hidden'));
-          document.getElementById(panelId).classList.remove('hidden');
-      }
-
-      function addUser() {
-          const name = prompt("Enter user name:");
-          const email = prompt("Enter user email:");
-          if (name && email) {
-              const table = document.getElementById("userTable");
-              const row = document.createElement("tr");
-              row.innerHTML = `
-                  <td class='p-2'>${name}</td>
-                  <td class='p-2'>${email}</td>
-                  <td class='p-2'>
-                      <button onclick='editUser(this)' class='bg-yellow-500 px-2 py-1 rounded'>Edit</button>
-                      <button onclick='deleteUser(this)' class='bg-red-500 px-2 py-1 rounded ml-2'>Delete</button>
-                  </td>
-              `;
-              table.appendChild(row);
-          }
-      }
-
-      function editUser(button) {
-          const row = button.parentElement.parentElement;
-          const name = prompt("Edit user name:", row.cells[0].innerText);
-          const email = prompt("Edit user email:", row.cells[1].innerText);
-          if (name && email) {
-              row.cells[0].innerText = name;
-              row.cells[1].innerText = email;
-          }
-      }
-
-      function deleteUser(button) {
-          if (confirm("Are you sure you want to delete this user?")) {
-              button.parentElement.parentElement.remove();
-          }
-      }
-  </script>
 </body>
 </html>
