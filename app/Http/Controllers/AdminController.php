@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function getAllClients()
     {
-        $allClients = DB::table('users')->select('*')->where('type', 'client');
+        $allClients = DB::table('users')->select('*')->where('role', 'client')->get();
         return $allClients;
     }
 }

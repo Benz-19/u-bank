@@ -52,23 +52,28 @@
                   <button class="mt-4 bg-red-500 px-4 py-2 rounded">logout</button>
                 </a>
               </div>
-              <table class="mt-4 w-full text-left border border-gray-700">
-                  <thead>
-                      <tr class="bg-gray-800">
-                          <th class="p-2">Name</th>
-                          <th class="p-2">Email</th>
-                          <th class="p-2">Actions</th>
-                      </tr>
-                  </thead>
-                  <tbody id="userTable" class="divide-y divide-gray-700">
-                    <td class='p-2'>${name}</td>
-                    <td class='p-2'>${email}</td>
-                    <td class='p-2'>
-                        <button class='bg-yellow-500 px-2 py-1 rounded'>Edit</button>
-                        <button class='bg-red-500 px-2 py-1 rounded ml-2'>Delete</button>
-                    </td>
-                  </tbody>
-              </table>
+              <table class="min-w-full border border-gray-700 text-white">
+                <thead class="bg-gray-800">
+                    <tr>
+                        <th class="p-3 text-left border border-gray-700">Name</th>
+                        <th class="p-3 text-left border border-gray-700">Email</th>
+                        <th class="p-3 text-center border border-gray-700">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($getAllClients as $client)
+                    <tr class="border border-gray-700">
+                        <td class="p-3 border border-gray-700">{{ $client->name }}</td>
+                        <td class="p-3 border border-gray-700">{{ $client->email }}</td>
+                        <td class="p-3 text-center border border-gray-700">
+                            <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded">Edit</button>
+                            <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded ml-2">Delete</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            
           </div>
           
           <!-- Transactions Panel -->

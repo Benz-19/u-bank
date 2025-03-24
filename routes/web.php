@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TransactionController;
 
 // Landing Page
@@ -117,7 +118,16 @@ Route::middleware(['PreventBackHistory'])->group(function () {
         if (Auth::check()) {
             return view('admin.dashboard');
         }
-
         return redirect('/');
+    });
+
+    // Admin Action
+    Route::get('/admin/dashboard', function () {
+        $AdminController = new AdminController;
+        $getAllClients = $AdminController->getAllClients();
+        // dd($getAllClients);
+        return view('admin.dashboard', [
+            'getAllClients' => $getAllClients,
+        ]);
     });
 });
