@@ -29,6 +29,7 @@
     <!-- Header -->
     @include('includes.header')
 
+
     <!-- Hero Section -->
     <section class="hero-section relative flex items-center justify-center h-screen bg-cover bg-center">
         <div class="hero-overlay"></div>
